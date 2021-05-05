@@ -26,6 +26,8 @@ services:
   #sets up how to make the source data available
   demo:
   tms:
+    use_grid_names: true
+    origin: 'nw'
   wms:
     #srs sets the coordinate reference systems as which you want to make your data available. MapProxy reprojects the source data very well to these projections.
     srs: ['EPSG:900913', 'EPSG:3857']
@@ -51,25 +53,50 @@ services:
       fees: 'None'
 
 layers:
-  #sets up which layers you want to make available using the services above. You can add many, but let's stick to osm data here.
+  #sets up which layers you want to make available using the services above.
+  - name: maaamet_orto
+    title: Maaamet orto
+    sources: [maaamet_cache]
   - name: osm
     title: Open Streetmap Tiles
     sources: [osm_cache] #this layer should use the osm_cache (defined below) as it's source.
 
 caches:
+  maaamet_cache_in:
+    grids: [ee_grid]
+    sources: [maaamet_ortofoto]
+    disable_storage: true
+    format: image/jpeg
+    request_format: image/jpeg
+  maaamet_cache:
+    grids: [webmercator]
+    sources: [maaamet_cache_in]
   #setup the cache for the open streetmap tiles. This cache is used by the layer above.
   osm_cache:
     sources: [osm_tiles] #here you set what source data (defined below) you want to cache
     format: image/png
 
 sources:
+  maaamet_ortofoto:
+    #the maaamet_ortofoto source refers to the maamet.ee tiles. These will be downloaded upon request (if not already cached) and served by MapProxy
+    type: tile
+    url: http://tiles.maaamet.ee/tm/tms/1.0.0/foto/%(z)s/%(x)s/%(y)s.jpg
+    grid: ee_grid
   osm_tiles:
     #the osm_tiles source refers to the openstreetmap.org tiles. These will be downloaded upon request (if not already cached) and served by MapProxy
     type: tile
     url: http://c.tile.openstreetmap.org/%(tms_path)s.%(format)s
-    grid: osm_grid #the grid to use for the osm tiles. This is really important. It is specified below.
+    grid: osm_grid
 
 grids:
+  ee_grid:
+    srs: 'EPSG:3301'
+    bbox: [40500.000000, 5993000.000000, 1064500.000000, 7017000.000000]
+    bbox_srs: 'EPSG:3301'
+  webmercator:
+    srs: 'EPSG:3857'
+    origin: nw
+    min_res: 156543.03392804097
   osm_grid:
     #this srs and origin specify a grid that can be used elsewhere in the configuration. In this example it is used for the osm_tiles source. These settings are correct for openstreetmap.org tiles.
     #The google mercator srs is used (also called EPSG:900913), and the origin of the tiles is north-west). If you get this wrong, you might very well get an all-blue world.
