@@ -60,6 +60,9 @@ layers:
   - name: osm
     title: Open Streetmap Tiles
     sources: [osm_cache] #this layer should use the osm_cache (defined below) as it's source.
+  - name: osm_local
+    title: Open Streetmap Tiles Local
+    sources: [osm_local_cache]
 
 caches:
   maaamet_cache_in:
@@ -75,6 +78,9 @@ caches:
   osm_cache:
     sources: [osm_tiles] #here you set what source data (defined below) you want to cache
     format: image/png
+  osm_local_cache:
+    sources: [osm_local_tiles]
+    format: image/png
 
 sources:
   maaamet_ortofoto:
@@ -86,6 +92,10 @@ sources:
     #the osm_tiles source refers to the openstreetmap.org tiles. These will be downloaded upon request (if not already cached) and served by MapProxy
     type: tile
     url: http://c.tile.openstreetmap.org/%(tms_path)s.%(format)s
+    grid: osm_grid
+  osm_local_tiles:
+    type: tile
+    url: http://openstreetmap/tile/%(z)s/%(x)s/%(y)s.png
     grid: osm_grid
 
 grids:
