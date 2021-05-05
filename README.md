@@ -29,8 +29,20 @@ Enjoy!
 Local OSM URL: http://localhost:8081/
 MapProxy URL: http://localhost:8080/demo/
 
-OSM: http://localhost:8080/demo/?tms_layer=osm&format=png&srs=EPSG%3A900913
-OSM example tile: http://localhost:8080/tms/1.0.0/osm/EPSG900913/4/14/16.png
+### OSM Tiles
 
-Maa-amet: http://localhost:8080/demo/?tms_layer=maaamet_orto&format=png&srs=EPSG%3A3857
-Maa-amet example tile: http://localhost:8080/tms/1.0.0/maaamet_orto/webmercator/7/144/180.png
+http://localhost:8080/demo/?tms_layer=osm&format=png&srs=EPSG%3A900913
+
+Example tile: http://localhost:8080/tms/1.0.0/osm/EPSG900913/4/14/16.png
+
+### Maa-amet Tiles
+
+http://localhost:8080/demo/?tms_layer=maaamet_orto&format=png&srs=EPSG%3A3857
+
+Example tile: http://localhost:8080/tms/1.0.0/maaamet_orto/webmercator/7/144/180.png
+
+### Local OSM Tiles
+
+http://localhost:8080/demo/?tms_layer=osm_local&format=png&srs=EPSG%3A900913
+
+Example tile: http://localhost:8080/tms/1.0.0/osm_local/GLOBAL_MERCATOR/6/72/90.png
